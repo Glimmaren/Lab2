@@ -7,9 +7,9 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            string checkNumber;
+            string checkString;
 
-            //ville testa "keys syntax"
+            //ville testa "keys syntax1."
             ConsoleKey response;
 
             do
@@ -17,11 +17,11 @@ namespace Lab1
                 Console.WriteLine("****************************************************************");
 
                 Console.Write("Enter a string: ");
-                checkNumber = Console.ReadLine();
+                checkString = Console.ReadLine();
 
                 Console.WriteLine("****************************************************************\n");
 
-                List<string> strings = StringToList(checkNumber);
+                List<string> strings = StringToList(checkString);
 
                 HighLightNumbers(strings);
 
@@ -92,53 +92,61 @@ namespace Lab1
 
         public static void HighLightNumbers(List<string> list)
         {
-            string tempItem = string.Empty;
-            int secondIndex = 1;
-            int fwdCount = 0;
-            Int64 sum = 0;
+            
+            string tempItem = string.Empty; //Förvarar dem främre substringen
 
-            for (int i = 0; i < list.Count; i++)
+            string substring = string.Empty; //Förvarar Substringen som skall färgas
+
+            int stepFwd = 0; //Används för att flytta fram scopet på stringen
+       
+            int firstIndex; //Firstindex är indexet på det första jämnförelsenummret
+            
+            int secondIndex = 1; //SecondIndex är idexet i stringen på det andra jämförhetsnummret
+
+            Int64 sum = 0;// Förvarar summan av de färgade talen
+
+            for (int i = 0; i < list.Count; i++)//Kollar igenom listan efter strängar som skall jämnföras
             {
-                fwdCount = 0;
+                stepFwd = 0;
 
                 if (IsNumretic(list[i]))
                 {
                 Foo:
 
-                    string temp = string.Empty;
+                    substring = string.Empty;
 
-                    for (int k = 0 + fwdCount; k < list[i].Length; k++)
+                    for (firstIndex = 0 + stepFwd; firstIndex < list[i].Length; firstIndex++)
                     {
-                        if (k == list[i].Length - 1 && secondIndex == list[i].Length)
+                        if (firstIndex == list[i].Length - 1 && secondIndex == list[i].Length)
                         {
                             tempItem += list[i];
                         }
-                        if (k == list[i].Length - 1)
+                        if (firstIndex == list[i].Length - 1)
                         {
                             goto Hell;
                         }
 
-                        secondIndex = 1 + k;
+                        secondIndex = 1 + firstIndex;
 
-                        for (int j = k; j < list[i].Length; j++)
+                        for (int j = firstIndex; j < list[i].Length; j++)
                         {
 
-                            if (list[i].Substring(k, 1).Equals(list[i].Substring(secondIndex, 1)))
+                            if (list[i].Substring(firstIndex, 1).Equals(list[i].Substring(secondIndex, 1))) //Jämnför talen i stränegn
                             {
 
-                                temp = list[i].Substring(k, secondIndex - k + 1);
+                                substring = list[i].Substring(firstIndex, secondIndex - firstIndex + 1);
 
-                                if (temp.Length >= 1)
+                                if (substring.Length >= 1) // Färgsätter och skriver ut
                                 {
                                     if (tempItem != null)
                                     {
                                         Console.Write(tempItem);
                                     }
 
-                                    Console.Write(list[i].Substring(0, k));
+                                    Console.Write(list[i].Substring(0, firstIndex));
 
                                     Console.ForegroundColor = RandomColor();
-                                    Console.Write(temp);
+                                    Console.Write(substring);
                                     Console.ForegroundColor = ConsoleColor.White;
 
                                     Console.Write(list[i].Substring(secondIndex + 1));
@@ -149,8 +157,11 @@ namespace Lab1
                                     }
 
                                     Console.WriteLine();
-                                    sum += Int64.Parse(temp);
-                                    fwdCount++;
+
+                                    sum += Int64.Parse(substring); // Lägger ihop summan av de markerade
+
+                                    stepFwd++;
+
                                     goto Foo;
                                 }
                             }
@@ -158,7 +169,7 @@ namespace Lab1
 
                             if (secondIndex == list[i].Length)
                             {
-                                fwdCount++;
+                                stepFwd++;
                                 goto Foo;
                             }
                         }
