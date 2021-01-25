@@ -105,7 +105,7 @@ namespace Lab1
 
             Int64 sum = 0;// Förvarar summan av de färgade talen
 
-            for (int i = 0; i < list.Count; i++)//Kollar igenom listan efter strängar som skall jämnföras
+            for (int i = 0; i < list.Count; i++)//Kollar igenom listan efter strängar som skall jämföras
             {
                 stepFwd = 0;
 
@@ -131,7 +131,7 @@ namespace Lab1
                         for (int j = firstIndex; j < list[i].Length; j++)
                         {
 
-                            if (list[i].Substring(firstIndex, 1).Equals(list[i].Substring(secondIndex, 1))) //Jämnför talen i stränegn
+                            if (list[i].Substring(firstIndex, 1).Equals(list[i].Substring(secondIndex, 1))) //Jämför talen i stränegn
                             {
 
                                 substring = list[i].Substring(firstIndex, secondIndex - firstIndex + 1);
